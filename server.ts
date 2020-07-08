@@ -1,30 +1,31 @@
-import http = require('http');
+import { stringify } from "querystring"
 
-http.createServer(function (req, res) {
-  switch (req.url) {
-    case ("/json-please"):
-      var json = {
-        "simple-text": "Hello, I'm json response. (￣▽￣)ノ",
-        "simple-object": {
-          "name": "I'm basic object. ( ͡° ͜ʖ ͡°)"
-        },
-        "simple-array": [
-          "array 1. (⌐■_■)",
-          "array 2. ヾ(・ω・`)ノヾ(´・ω・)ノ゛"
-        ]
-      }
+var express = require('express')
+var app = express()
+const port = 3000
 
-      res.writeHead(200, {"Content-Type": "application/json"})
-      res.write(JSON.stringify(json))
-      res.end()
-      break;
+app.use(express.json())
 
-    case ("/"):
-      res.writeHead(200, {"Content-Type": "text"})
-      res.write("I'm on. ヾ(＾∇＾)")
-      res.end()
-      break;
-  }
-}).listen(80)
+app.get("/",(req: any, res: any) => {
+  var manual: String = `
+    GET: /text \n
+    POST: /text {"message": "YOUR_MESSAGE"}
+  `
+  res.end(manual)
+})
 
-console.log("Server started.")
+app.get("/text",(req: any, res: any) => {
+  res.end("Hello world")
+})
+
+app.post("/text",(req: any, res: any) => {
+  var reqBody = req.body
+  var responseMessage = `We got your message: ${reqBody.message}`
+
+  res.end(responseMessage)
+})
+
+
+app.listen(port, () => {
+  console.log(`App run at: ${port}`)
+})

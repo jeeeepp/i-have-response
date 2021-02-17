@@ -21,7 +21,7 @@ http.createServer(function (req, res) {
 
     case ("/"):
       res.writeHead(200, {"Content-Type": "text"})
-      res.write("I'm on. ヾ(＾∇＾)")
+      res.write("I'm on. ヾ(＾∇＾)\nTo call json use '/json-please'")
       res.end()
       break;
   }
